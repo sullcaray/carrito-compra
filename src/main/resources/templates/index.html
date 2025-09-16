@@ -7,14 +7,14 @@
 </head>
 <body>
 <div class="container">
-    <h1>Productos</h1>
+    <h1>Mi Botica</h1>
     <div class="row">
         <div class="col-md-4" th:each="product : ${products}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${product.name}"></h5>
                     <p class="card-text" th:text="${product.description}"></p>
-                    <p class="card-text" th:text="'Price: $' + ${product.price}"></p>
+                    <p class="card-text" th:text="'Precio: S/. ' + ${product.price}"></p>
                     <form th:action="@{/cart/add}" method="post">
                         <input type="hidden" name="id" th:value="${product.id}">
                         <div class="form-group">
