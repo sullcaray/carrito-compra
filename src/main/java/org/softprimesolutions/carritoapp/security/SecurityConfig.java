@@ -23,13 +23,14 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/**") // Disable CSRF for API endpoints only
+                        .ignoringRequestMatchers("/api/**", "/web-login") // Disable CSRF for API and web-login
                 )
                 .authorizeHttpRequests(authz -> authz
                         // Web endpoints - require authentication
@@ -37,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         // Public web endpoints
-                        .requestMatchers("/login", "/register", "/error", "/perform-login").permitAll()
+                        .requestMatchers("/login", "/register", "/error", "/web-login").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
 
                         // API endpoints
@@ -48,28 +49,11 @@ public class SecurityConfig {
 
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/perform-login")
-                        .defaultSuccessUrl("/dashboard", true)
-                        .failureUrl("/login?error=true")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .permitAll()
-                )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Cambiar a STATELESS para JWT
                 )
                 .userDetailsService(userDetailsService)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

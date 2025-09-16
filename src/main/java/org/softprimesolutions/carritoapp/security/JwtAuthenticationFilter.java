@@ -2,6 +2,7 @@ package org.softprimesolutions.carritoapp.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -54,10 +55,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String extractJwtFromRequest(HttpServletRequest request) {
+        // Primero intentar obtener el token del header Authorization
         String authHeader = request.getHeader(AUTHORIZATION_HEADER);
-
         if (StringUtils.hasText(authHeader) && authHeader.startsWith(BEARER_PREFIX)) {
             return authHeader.substring(BEARER_PREFIX.length());
+        }
+
+        // Si no se encuentra en el header, buscar en las cookies
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("JWT_TOKEN".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
         }
 
         return null;
