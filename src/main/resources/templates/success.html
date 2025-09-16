@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Pedido Creado</title>
+  <meta http-equiv="refresh" th:attr="content='5;url=/'" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-$END$
+<div class="container mt-5">
+  <div class="alert alert-success text-center" role="alert">
+    <h4 class="alert-heading">¡Pedido creado con éxito!</h4>
+    <p th:text="${message}"></p>
+    <hr>
+    <p class="mb-0">Serás redirigido a la página principal en 5 segundos.</p>
+  </div>
+</div>
 </body>
 </html>

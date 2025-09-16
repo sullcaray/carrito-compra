@@ -2,34 +2,76 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Shopping Cart</title>
+    <title>Carrito de compras</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Color de fondo suave */
+        }
+        .container {
+            margin-top: 50px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .table thead th {
+            border-bottom: 2px solid #dee2e6;
+        }
+        .total-section {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .btn-checkout {
+            font-size: 1.25rem;
+            padding: 10px 30px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h1>Shopping Cart</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="detail : ${details}">
-            <td th:text="${detail.product.name}"></td>
-            <td th:text="${detail.price}"></td>
-            <td th:text="${detail.quantity}"></td>
-            <td th:text="${detail.price * detail.quantity}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <h3>Total: <span th:text="${total}"></span></h3>
-    <form th:action="@{/cart/save}" method="post">
-        <button type="submit" class="btn btn-success">Checkout</button>
-    </form>
+    <h1 class="text-center mb-4"><i class="fas fa-shopping-cart text-primary"></i>Carrito de compras</h1>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="bg-light">
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="detail : ${details}">
+                <td th:text="${detail.product.name}"></td>
+                <td th:text="${#numbers.formatDecimal(detail.price, 0, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${detail.quantity}"></td>
+                <td th:text="${#numbers.formatDecimal(detail.price * detail.quantity, 0, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-6 total-section">
+            Total: <span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <form th:action="@{/cart/save}" method="post">
+            <button type="submit" class="btn btn-success btn-checkout">
+                <i class="fas fa-check-circle"></i> Checkout
+            </button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

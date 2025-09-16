@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Checkout</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-$END$
+<div class="container mt-5">
+  <div class="card p-4 shadow">
+    <h1 class="card-title text-center mb-4">Checkout</h1>
+    <h4 class="card-subtitle mb-4">Total a pagar: <span th:text="${total}"></span></h4>
+    <form th:action="@{/checkout/process}" method="post">
+      <div class="form-group">
+        <label for="contactName">Nombre de contacto</label>
+        <input type="text" class="form-control" id="contactName" name="contactName" required>
+      </div>
+      <div class="form-group">
+        <label for="creditCard">Número de tarjeta</label>
+        <input type="text" class="form-control" id="creditCard" name="creditCard" required>
+      </div>
+      <button type="submit" class="btn btn-success btn-block btn-lg mt-4"><i class="fas fa-money-check-alt"></i> Pagar</button>
+    </form>
+  </div>
+</div>
 </body>
 </html>

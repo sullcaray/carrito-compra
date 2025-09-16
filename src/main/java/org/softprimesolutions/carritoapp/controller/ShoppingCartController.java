@@ -33,6 +33,7 @@ public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
 
     private List<ShoppingCartDetail> details = new ArrayList<>();
+    private ShoppingCart shoppingCart = new ShoppingCart();
 
     @PostMapping("/cart/add")
     public String addCart(@RequestParam("id") Integer id, @RequestParam("quantity") Integer quantity, HttpSession session) {
@@ -60,7 +61,6 @@ public class ShoppingCartController {
     public String saveCart(HttpSession session) {
         Date date = new Date();
         Client client = clientService.findById(1); // Assuming client with id 1 exists
-        ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setDate(date);
         shoppingCart.setClient(client);
         shoppingCart.setDetails(details);
@@ -69,6 +69,15 @@ public class ShoppingCartController {
             detail.setShoppingCart(shoppingCart);
         }
         details.clear();
-        return "redirect:/";
+        return "checkout";
+    }
+
+    @PostMapping("/checkout/process")
+    public String processPayment(@RequestParam String contactName, @RequestParam String creditCard, Model model) {
+
+
+
+        model.addAttribute("message", "¡Pedido creado con éxito!");
+        return "success"; // Redirige a la vista 'success.html'
     }
 }
