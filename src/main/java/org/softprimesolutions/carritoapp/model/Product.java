@@ -1,4 +1,4 @@
-package org.softprimesolutions.carritoapp.domain;
+package org.softprimesolutions.carritoapp.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,20 +7,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.softprimesolutions.carritoapp.model.Category;
 
 @Entity
 @Data
-@Table(name = "shopping_cart_details")
-public class ShoppingCartDetail {
+@Table(name = "products")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private int quantity;
+    private String name;
+    private String description;
     private double price;
+    private int stock;
 
     @ManyToOne
-    private ShoppingCart shoppingCart;
-
-    @ManyToOne
-    private Product product;
+    private Category category;
 }

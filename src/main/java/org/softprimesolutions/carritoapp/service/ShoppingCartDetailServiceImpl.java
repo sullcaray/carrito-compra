@@ -1,6 +1,6 @@
 package org.softprimesolutions.carritoapp.service;
 
-import org.softprimesolutions.carritoapp.domain.ShoppingCartDetail;
+import org.softprimesolutions.carritoapp.model.ShoppingCartDetail;
 import org.softprimesolutions.carritoapp.repository.ShoppingCartDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

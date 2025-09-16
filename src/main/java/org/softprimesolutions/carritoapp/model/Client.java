@@ -1,4 +1,4 @@
-package org.softprimesolutions.carritoapp.domain;
+package org.softprimesolutions.carritoapp.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,10 +9,12 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "categories")
-public class Category {
+@Table(name = "clients")
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
 }

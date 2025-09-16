@@ -8,18 +8,55 @@
 <body>
 <div class="container mt-5">
   <div class="card p-4 shadow">
-    <h1 class="card-title text-center mb-4">Checkout</h1>
+    <h1 class="card-title text-center mb-4"><i class="fas fa-credit-card text-primary"></i> Checkout</h1>
     <h4 class="card-subtitle mb-4">Total a pagar: <span th:text="${total}"></span></h4>
     <form th:action="@{/checkout/process}" method="post">
       <div class="form-group">
         <label for="contactName">Nombre de contacto</label>
         <input type="text" class="form-control" id="contactName" name="contactName" required>
       </div>
+
       <div class="form-group">
-        <label for="creditCard">Número de tarjeta</label>
-        <input type="text" class="form-control" id="creditCard" name="creditCard" required>
+        <label for="creditCardNumber">Número de tarjeta</label>
+        <input type="text"
+               class="form-control"
+               id="creditCardNumber"
+               name="creditCardNumber"
+               pattern="[0-9]{16}"
+               title="Debe tener 16 dígitos"
+               maxlength="16"
+               required>
+        <small class="form-text text-muted">Ingresa 16 dígitos sin espacios ni guiones.</small>
       </div>
-      <button type="submit" class="btn btn-success btn-block btn-lg mt-4"><i class="fas fa-money-check-alt"></i> Pagar</button>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="expirationDate">Fecha de vencimiento</label>
+          <input type="text"
+                 class="form-control"
+                 id="expirationDate"
+                 name="expirationDate"
+                 placeholder="MM/AA"
+                 pattern="(0[1-9]|1[0-2])\/\d{2}"
+                 title="Formato MM/AA"
+                 required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cvv">Código de seguridad (CVV)</label>
+          <input type="text"
+                 class="form-control"
+                 id="cvv"
+                 name="cvv"
+                 pattern="[0-9]{3,4}"
+                 title="3 o 4 dígitos"
+                 maxlength="4"
+                 required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success btn-block btn-lg mt-4">
+        <i class="fas fa-check-circle"></i> Pagar
+      </button>
     </form>
   </div>
 </div>

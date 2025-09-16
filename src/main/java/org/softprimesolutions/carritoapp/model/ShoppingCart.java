@@ -1,16 +1,11 @@
-package org.softprimesolutions.carritoapp.domain;
+package org.softprimesolutions.carritoapp.model;
 
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import jakarta.persistence.CascadeType;
 
 @Entity
 @Data
@@ -23,6 +18,9 @@ public class ShoppingCart {
 
     @ManyToOne
     private Client client;
+
+    @OneToOne(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
+    private PaymentDetail paymentDetail;
 
     @OneToMany(mappedBy = "shoppingCart")
     private List<ShoppingCartDetail> details;

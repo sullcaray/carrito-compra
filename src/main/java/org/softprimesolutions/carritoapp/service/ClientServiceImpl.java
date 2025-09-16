@@ -1,6 +1,6 @@
 package org.softprimesolutions.carritoapp.service;
 
-import org.softprimesolutions.carritoapp.domain.Client;
+import org.softprimesolutions.carritoapp.model.Client;
 import org.softprimesolutions.carritoapp.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
