@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=bd_carrito_compras'
+      - 'POSTGRES_PASSWORD=CarritoCompra*'
+      - 'POSTGRES_USER=carrito_compra'
+    ports:
+      - '5433:5432'
