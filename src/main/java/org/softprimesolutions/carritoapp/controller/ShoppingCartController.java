@@ -7,6 +7,7 @@ import java.util.List;
 import org.softprimesolutions.carritoapp.model.*;
 import org.softprimesolutions.carritoapp.service.ClientService;
 import org.softprimesolutions.carritoapp.service.ProductService;
+import org.softprimesolutions.carritoapp.service.ShoppingCartDetailService;
 import org.softprimesolutions.carritoapp.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,8 @@ public class ShoppingCartController {
 
     @Autowired
     private ShoppingCartService shoppingCartService;
+    @Autowired
+    private ShoppingCartDetailService shoppingCartDetailService;
 
     private List<ShoppingCartDetail> details = new ArrayList<>();
     private ShoppingCart shoppingCart = new ShoppingCart();
@@ -62,10 +65,8 @@ public class ShoppingCartController {
         shoppingCart.setDate(date);
         shoppingCart.setClient(client);
         shoppingCart.setDetails(details);
-        for (ShoppingCartDetail detail : details) {
-            detail.setShoppingCart(shoppingCart);
-        }
-        details.clear();
+
+
         return "checkout";
     }
 
@@ -77,8 +78,14 @@ public class ShoppingCartController {
         paymentDetail.setCardnumber(creditCardNumber);
         paymentDetail.setExpire(expirationDate);
         paymentDetail.setCode(cvv);
+
         shoppingCart.setPaymentDetail(paymentDetail);
         shoppingCartService.save(shoppingCart);
+
+        for (ShoppingCartDetail detail : details) {
+            detail.setShoppingCart(shoppingCart);
+            shoppingCartDetailService.save(detail);
+        }
 
         model.addAttribute("message", "¡Pedido creado con éxito!");
         return "success"; // Redirige a la vista 'success.html'

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/bd_carrito_compras
+    url: jdbc:postgresql://localhost:5433/bd_carrito_compras
     username: carrito_compra
     password: CarritoCompra*
   jpa:
