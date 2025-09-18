@@ -73,7 +73,7 @@ INSERT INTO roles (name, description, created_by) VALUES
 
 
 -- Datos de prueba de usuarios
--- Contraseña para todos: password123 (encriptada con BCrypt)
+-- Contraseña para todos: admin2025 (encriptada con BCrypt)
 INSERT INTO users (username, email, password, document_type, identity_document, first_name, last_name, mother_last_name, phone, created_by) VALUES
 ('admin', 'admin@carritoapp.com', '$2a$12$023ly6Mcks.e1dsGog/EpuIB2fdwJyg1QavbJ9GvaI/JRgipGJNBK', '1', '12345678', 'Administrator', 'Sistema', 'Admin', '987654321', '48484848'),
 ('johndoe', 'john@gmail.com', '$2a$12$023ly6Mcks.e1dsGog/EpuIB2fdwJyg1QavbJ9GvaI/JRgipGJNBK', '1', '87654321', 'John', 'Doe', 'Smith', '123456789', '48484848'),
