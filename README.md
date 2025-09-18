@@ -1,6 +1,6 @@
 # Proyecto Pharmacare-plus
 
-Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot.
+Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot con el patrón MVC.
 
 ## Características
 
@@ -43,7 +43,7 @@ Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot.
     ```
 
 2.  **Crear la Base de Datos:**
-    *   Crea una base de datos en tu gestor de base de datos preferido.
+    *   Crea una base de datos en el gestor de base de datos PostgreSQL.
     *   Ejecuta el script `src/main/resources/carrito.sql` para crear las tablas necesarias y cargar los datos iniciales. Este script creará las tablas de categorías, productos, usuarios, roles y otras tablas requeridas para el funcionamiento de la aplicación.
 
 3.  **Configurar la conexión a la Base de Datos:**
