@@ -1,80 +1,111 @@
-# Proyecto Pharmacare-plus
+# Proyecto PharmaCare+
 
-Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot con el patrón MVC.
+Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot, siguiendo el patrón MVC y exponiendo una API REST para la gestión de la lógica de negocio.
 
-## Características
+## ⭐️ Características
 
-*   **Autenticación y Autorización:** Sistema de login basado en JWT (JSON Web Tokens) con roles de usuario.
-*   **Gestión de Productos:** Mantenimiento de productos y categorías.
-*   **Carrito de Compras:** Funcionalidad para agregar, visualizar y gestionar productos en el carrito de un usuario.
-*   **Proceso de Pago:** Simulación de un proceso de checkout.
-*   **API REST:** Endpoints para interactuar con los recursos de la aplicación.
+*   **Autenticación y Autorización:** Sistema de login seguro basado en JWT (JSON Web Tokens) con roles de usuario (Admin/Usuario).
+*   **Gestión de Productos:** Mantenimiento completo (CRUD) de productos y categorías.
+*   **Carrito de Compras:** Funcionalidad para agregar, visualizar, actualizar y eliminar productos del carrito de un usuario.
+*   **Proceso de Pago:** Simulación de un proceso de checkout para finalizar la compra.
+*   **API REST:** Endpoints para interactuar con los recursos de la aplicación de forma programática.
+*   **Frontend (Server-Side):** Vistas generadas con Thymeleaf para una interacción directa desde el navegador.
 
-## Tecnologías Utilizadas
+## 🛠️ Tecnologías Utilizadas
 
 *   **Backend:**
-    *   Java
+    *   Java 17
     *   Spring Boot
     *   Spring Web
-    *   Spring Security
-    *   Spring Data JPA
+    *   Spring Security (con JWT)
+    *   Spring Data JPA (Hibernate)
 *   **Frontend (Server-Side):**
     *   Thymeleaf
 *   **Base de Datos:**
-    *   SQL (Compatible PostgreSQL)
+    *   PostgreSQL
 *   **Build Tool:**
     *   Maven
 *   **Contenerización:**
-    *   Docker
+    *   Docker & Docker Compose
 
-## Guía de Instalación
+---
 
-### Prerrequisitos
+## 🚀 Guía de Instalación y Puesta en Marcha
 
-*   JDK (Java Development Kit) 17.
-*   Maven 3.6 o superior.
-*   Un gestor de base de datos (PostgreSQL).
-*   Docker (Opcional, para ejecutar con Docker Compose).
+Sigue estos pasos para configurar y ejecutar el proyecto en tu entorno local.
 
-### Pasos
+### 1. Prerrequisitos
 
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone <url-del-repositorio>
-    cd carrito-compra
-    ```
+Asegúrate de tener instalado el siguiente software. Se incluyen los enlaces para su descarga e instalación:
 
-2.  **Crear la Base de Datos:**
-    *   Crea una base de datos en el gestor de base de datos PostgreSQL.
-    *   Ejecuta el script `src/main/resources/carrito.sql` para crear las tablas necesarias y cargar los datos iniciales. Este script creará las tablas de categorías, productos, usuarios, roles y otras tablas requeridas para el funcionamiento de la aplicación.
+| Dependencia | Versión Mínima | Enlace de Descarga                                                              |
+| :---------- | :------------- | :------------------------------------------------------------------------------ |
+| **Git**         | `2.x`          | [git-scm.com/downloads](https://git-scm.com/downloads)                          |
+| **JDK**         | `17`           | [adoptium.net (Eclipse Temurin)](https://adoptium.net/temurin/releases/?version=17) |
+| **Docker**      | `20.x`         | [docs.docker.com/get-docker](https://docs.docker.com/get-docker/)               |
 
-3.  **Configurar la conexión a la Base de Datos:**
-    *   Abre el archivo `src/main/resources/application.yml`.
-    *   Modifica las siguientes propiedades para apuntar a tu base de datos:
-        ```yaml
-        spring:
-          datasource:
-            url: jdbc:postgresql://localhost:5433/bd_carrito_compras
-            username: carrito_compra
-            password: CarritoCompra*
-        ```
+> **Nota:** No es necesario instalar Maven por separado, ya que el proyecto incluye el Maven Wrapper (`mvnw`), que lo descargará automáticamente.
 
-4.  **Compilar y Ejecutar el proyecto:**
-    *   Puedes ejecutar la aplicación usando el wrapper de Maven incluido:
-        ```bash
-        # En Windows
-        ./mvnw spring-boot:run
+### 2. Clonar el Repositorio
 
-        # En Linux/macOS
-        ./mvnw spring-boot:run
-        ```
-    *   La aplicación estará disponible en `http://localhost:8085`.
+Abre una terminal y clona el proyecto usando Git:
 
-### Instalación con Docker (Alternativa)
+```bash
+git clone https://github.com/tu-usuario/carrito-compra.git
+cd carrito-compra
+```
 
-1.  Asegúrate de tener Docker y Docker Compose instalados.
-2.  Configura las variables de entorno necesarias en el archivo `compose.yaml` si es necesario.
-3.  Ejecuta el siguiente comando en la raíz del proyecto:
-    ```bash
-    docker-compose up -d
-    ```
+### 3. Configurar y Levantar la Base de Datos
+
+La forma más sencilla de iniciar la base de datos es usando Docker, ya que el proyecto incluye un archivo de configuración listo para usar.
+
+En la raíz del proyecto, ejecuta el siguiente comando:
+
+```bash
+docker-compose up -d
+```
+
+Este comando creará e iniciará un contenedor de Docker con una base de datos PostgreSQL. La base de datos estará accesible en el puerto `5432` de tu máquina local (`localhost`).
+
+> **Importante:** El archivo `application.yml` está configurado para conectarse al puerto `5433`. Debes **modificar el puerto en el archivo de configuración** para que coincida con el que expone Docker.
+>
+> 1.  Abre el archivo: `src/main/resources/application.yml`.
+> 2.  Busca la línea `url: jdbc:postgresql://localhost:5433/bd_carrito_compras`.
+> 3.  Cámbiala a: `url: jdbc:postgresql://localhost:5432/bd_carrito_compras`.
+
+### 4. Carga de Datos Iniciales
+
+El proyecto está configurado para que Spring Boot se encargue de todo. Al arrancar:
+1.  Hibernate (`ddl-auto: update`) revisará y creará las tablas que no existan en la base de datos.
+2.  El script `src/main/resources/data.sql` se ejecutará automáticamente para poblar las tablas con datos iniciales (roles, categorías, productos de ejemplo, etc.).
+
+No se requiere ninguna acción manual para este paso.
+
+### 5. Ejecutar la Aplicación
+
+Usa el Maven Wrapper para compilar y ejecutar el proyecto.
+
+```bash
+# En Windows (cmd o PowerShell)
+./mvnw.cmd spring-boot:run
+
+# En Linux / macOS / Git Bash
+./mvnw spring-boot:run
+```
+
+Una vez que la aplicación se inicie, podrás acceder a ella desde tu navegador en la siguiente URL:
+
+**[http://localhost:8085](http://localhost:8085)**
+
+---
+
+### Alternativa: Instalación Manual de PostgreSQL
+
+Si prefieres no usar Docker, puedes instalar PostgreSQL manualmente.
+
+1.  **Descarga e instala PostgreSQL** desde [postgresql.org/download](https://www.postgresql.org/download/).
+2.  Usando una herramienta como `psql` o `pgAdmin`, crea la base de datos, el usuario y la contraseña que se especifican en `application.yml`:
+    *   Base de datos: `bd_carrito_compras`
+    *   Usuario: `carrito_compra`
+    *   Contraseña: `CarritoCompra*`
+3.  Asegúrate de que el puerto configurado en `application.yml` coincida con el puerto en el que se está ejecutando tu instancia de PostgreSQL.
