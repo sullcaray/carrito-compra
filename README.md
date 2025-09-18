@@ -95,8 +95,13 @@ Usa el Maven Wrapper para compilar y ejecutar el proyecto.
 
 Una vez que la aplicación se inicie, podrás acceder a ella desde tu navegador en la siguiente URL:
 
-**[http://localhost:8085](http://localhost:8085)**
+**[http://localhost:8085/login](http://localhost:8085/login)**
 
+> **Credenciales:**
+>
+> Usuario: admin
+> 
+> Contraseña: admin2025
 ---
 
 ### Alternativa: Instalación Manual de PostgreSQL
