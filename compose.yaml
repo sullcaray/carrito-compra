@@ -6,4 +6,4 @@ services:
       - 'POSTGRES_PASSWORD=CarritoCompra*'
       - 'POSTGRES_USER=carrito_compra'
     ports:
-      - "5432:5432"
+      - "5433:5432"

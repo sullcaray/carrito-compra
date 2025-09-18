@@ -65,7 +65,7 @@ En la raíz del proyecto, ejecuta el siguiente comando:
 docker-compose up -d
 ```
 
-Este comando creará e iniciará un contenedor de Docker con una base de datos PostgreSQL. La base de datos estará accesible en el puerto `5432` de tu máquina local (`localhost`).
+Este comando creará e iniciará un contenedor de Docker con una base de datos PostgreSQL. La base de datos estará accesible en el puerto `5433` de tu máquina local (`localhost`).
 
 > **Importante:** El archivo `application.yml` está configurado para conectarse al puerto `5433`. Debes **modificar el puerto en el archivo de configuración** para que coincida con el que expone Docker.
 >
