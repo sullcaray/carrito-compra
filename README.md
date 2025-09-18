@@ -1,4 +1,4 @@
-# Proyecto Carrito de Compras
+# Proyecto Pharmacare-plus
 
 Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot.
 
