@@ -31,7 +31,7 @@ Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot c
 
 ### Prerrequisitos
 
-*   JDK (Java Development Kit) 21.
+*   JDK (Java Development Kit) 17.
 *   Maven 3.6 o superior.
 *   Un gestor de base de datos (PostgreSQL).
 *   Docker (Opcional, para ejecutar con Docker Compose).
