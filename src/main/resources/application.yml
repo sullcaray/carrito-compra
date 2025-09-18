@@ -18,7 +18,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-# JWT Configuration (moved outside of spring section)
+# JWT Configuration
 jwt:
   secret: ${JWT_SECRET:mySecretKeyForCitaSaludApplicationThatShouldBeAtLeast256BitsLong}
   expiration: 86400000
+
