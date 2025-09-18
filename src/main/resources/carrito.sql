@@ -46,6 +46,85 @@ CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELE
 CONSTRAINT fk_user_roles_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 
+-- Tabla: categories
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(255),
+    status VARCHAR(1) NOT NULL DEFAULT '1',
+    created_by VARCHAR(12) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_by VARCHAR(12),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: products
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL,
+    stock INTEGER NOT NULL DEFAULT 0,
+    category_id INTEGER NOT NULL,
+    image_url VARCHAR(255),
+    status VARCHAR(1) NOT NULL DEFAULT '1',
+    created_by VARCHAR(12) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_by VARCHAR(12),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_products_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
+);
+
+-- Tabla: shopping_carts
+CREATE TABLE shopping_carts (
+    id SERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    total_amount DECIMAL(10,2) DEFAULT 0.00,
+    status VARCHAR(1) NOT NULL DEFAULT '1',
+    created_by VARCHAR(12) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_by VARCHAR(12),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_shopping_carts_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Tabla: shopping_cart_details
+CREATE TABLE shopping_cart_details (
+    id SERIAL PRIMARY KEY,
+    shopping_cart_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 1,
+    price DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    status VARCHAR(1) NOT NULL DEFAULT '1',
+    created_by VARCHAR(12) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_by VARCHAR(12),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_cart_details_cart FOREIGN KEY (shopping_cart_id) REFERENCES shopping_carts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_cart_details_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
+);
+
+-- Tabla: payment_details
+CREATE TABLE payment_details (
+    id SERIAL PRIMARY KEY,
+    shopping_cart_id INTEGER NOT NULL UNIQUE,
+    cardholder VARCHAR(100) NOT NULL,
+    card_number VARCHAR(20) NOT NULL,
+    expire_date VARCHAR(7) NOT NULL,
+    security_code VARCHAR(4) NOT NULL,
+    payment_method VARCHAR(50) DEFAULT 'CREDIT_CARD',
+    payment_status VARCHAR(20) DEFAULT 'PENDING',
+    transaction_id VARCHAR(100),
+    status VARCHAR(1) NOT NULL DEFAULT '1',
+    created_by VARCHAR(12) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_by VARCHAR(12),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_payment_details_cart FOREIGN KEY (shopping_cart_id) REFERENCES shopping_carts(id) ON DELETE CASCADE
+);
+
 -- Índices para mejorar rendimiento
 CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_email ON users(email);
@@ -53,6 +132,14 @@ CREATE INDEX idx_users_identity_document ON users(identity_document);
 CREATE INDEX idx_roles_name ON roles(name);
 CREATE INDEX idx_user_roles_user_id ON user_roles(user_id);
 CREATE INDEX idx_user_roles_role_id ON user_roles(role_id);
+CREATE INDEX idx_products_category_id ON products(category_id);
+CREATE INDEX idx_products_name ON products(name);
+CREATE INDEX idx_products_price ON products(price);
+CREATE INDEX idx_shopping_carts_user_id ON shopping_carts(user_id);
+CREATE INDEX idx_shopping_carts_date ON shopping_carts(date);
+CREATE INDEX idx_cart_details_cart_id ON shopping_cart_details(shopping_cart_id);
+CREATE INDEX idx_cart_details_product_id ON shopping_cart_details(product_id);
+CREATE INDEX idx_payment_details_cart_id ON payment_details(shopping_cart_id);
 
 -- Comentarios para documentación
 COMMENT ON TABLE roles IS 'Table that stores system roles';
@@ -64,6 +151,12 @@ COMMENT ON COLUMN users.status IS 'Record status: 0=Inactive, 1=Active, 2=Delete
 
 COMMENT ON TABLE user_roles IS 'Many-to-many relationship table between users and roles';
 COMMENT ON COLUMN user_roles.status IS 'Record status: 0=Inactive, 1=Active, 2=Deleted';
+
+COMMENT ON TABLE categories IS 'Table that stores product categories for pharmacy items';
+COMMENT ON TABLE products IS 'Table that stores pharmacy products information';
+COMMENT ON TABLE shopping_carts IS 'Table that stores user shopping carts';
+COMMENT ON TABLE shopping_cart_details IS 'Table that stores items in each shopping cart';
+COMMENT ON TABLE payment_details IS 'Table that stores payment information for each cart';
 
 -- Datos iniciales (opcional)
 INSERT INTO roles (name, description, created_by) VALUES
@@ -86,3 +179,50 @@ INSERT INTO user_roles (user_id, role_id, created_by) VALUES
 (2, 2, '48484848'), -- johndoe tiene rol USER
 (3, 2, '48484848'), -- janedoe tiene rol USER
 (3, 3, '48484848'); -- janedoe también tiene rol MODERATOR
+
+-- Datos de ejemplo para categorías de farmacia
+INSERT INTO categories (name, description, created_by) VALUES
+('Analgesics', 'Pain relief medications', '48484848'),
+('Antibiotics', 'Infection treatment medications', '48484848'),
+('Vitamins', 'Nutritional supplements and vitamins', '48484848'),
+('Dermatology', 'Skin care and treatment products', '48484848'),
+('Respiratory', 'Respiratory system medications', '48484848'),
+('Digestive', 'Digestive system medications', '48484848'),
+('First Aid', 'First aid and wound care products', '48484848'),
+('Baby Care', 'Baby and infant care products', '48484848');
+
+-- Datos de ejemplo para productos de farmacia
+INSERT INTO products (name, description, price, stock, category_id, created_by) VALUES
+-- Analgesicos
+('Paracetamol 500mg', 'Pain and fever relief tablets', 8.50, 100, 1, '48484848'),
+('Ibuprofen 400mg', 'Anti-inflammatory and pain relief', 12.00, 80, 1, '48484848'),
+('Aspirin 100mg', 'Low-dose aspirin for cardiovascular protection', 15.50, 60, 1, '48484848'),
+
+-- Antibióticos
+('Amoxicillin 500mg', 'Broad-spectrum antibiotic', 25.00, 40, 2, '48484848'),
+('Azithromycin 250mg', 'Antibiotic for respiratory infections', 35.00, 30, 2, '48484848'),
+
+-- Vitaminas
+('Vitamin C 1000mg', 'Immune system support', 18.00, 150, 3, '48484848'),
+('Multivitamin Complex', 'Complete daily vitamin supplement', 22.50, 120, 3, '48484848'),
+('Vitamin D3 2000 IU', 'Bone health and immune support', 20.00, 90, 3, '48484848'),
+
+-- Dermatología
+('Hydrocortisone Cream 1%', 'Anti-inflammatory skin cream', 14.00, 70, 4, '48484848'),
+('Antifungal Cream', 'Treatment for fungal skin infections', 16.50, 50, 4, '48484848'),
+
+-- Respiratorio
+('Cough Syrup', 'Relief for dry and productive cough', 18.50, 85, 5, '48484848'),
+('Nasal Decongestant Spray', 'Fast relief for nasal congestion', 12.50, 95, 5, '48484848'),
+
+-- Digestivo
+('Antacid Tablets', 'Relief for heartburn and acid indigestion', 9.50, 110, 6, '48484848'),
+('Probiotic Capsules', 'Digestive health support', 28.00, 45, 6, '48484848'),
+
+-- Primeros Auxilios
+('Adhesive Bandages Pack', 'Assorted sizes for wound protection', 6.50, 200, 7, '48484848'),
+('Antiseptic Solution', 'Wound cleaning and disinfection', 11.00, 75, 7, '48484848'),
+
+-- Cuidado del Bebé
+('Baby Thermometer', 'Digital thermometer for infants', 35.00, 25, 8, '48484848'),
+('Baby Lotion', 'Gentle moisturizing lotion for sensitive skin', 16.00, 60, 8, '48484848');

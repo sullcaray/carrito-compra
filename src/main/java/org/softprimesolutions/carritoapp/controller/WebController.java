@@ -18,11 +18,6 @@ public class WebController {
 
     private final AuthService authService;
 
-    @GetMapping("/")
-    public String home() {
-        return "redirect:/dashboard";
-    }
-
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                        @RequestParam(value = "logout", required = false) String logout,
@@ -61,8 +56,8 @@ public class WebController {
             jwtCookie.setMaxAge(86400); // 24 horas
             response.addCookie(jwtCookie);
 
-            // Redirigir al dashboard
-            return "redirect:/dashboard";
+            // Redirigir a la página principal en lugar de dashboard
+            return "redirect:/";
 
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Usuario o contraseña incorrectos");

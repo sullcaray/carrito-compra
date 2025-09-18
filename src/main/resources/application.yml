@@ -8,8 +8,8 @@ spring:
     url: jdbc:postgresql://localhost:5433/bd_carrito_compras
     username: carrito_compra
     password: CarritoCompra*
-    driver-class-name: org.postgresql.Driver
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -18,7 +18,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-# JWT Configuration (moved outside of spring section)
+# JWT Configuration
 jwt:
   secret: ${JWT_SECRET:mySecretKeyForCitaSaludApplicationThatShouldBeAtLeast256BitsLong}
   expiration: 86400000
