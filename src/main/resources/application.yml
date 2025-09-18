@@ -1,12 +1,24 @@
+server:
+  port: 8085
+
 spring:
+  application:
+    name: PharmaCare+
   datasource:
     url: jdbc:postgresql://localhost:5433/bd_carrito_compras
     username: carrito_compra
     password: CarritoCompra*
+    driver-class-name: org.postgresql.Driver
   jpa:
-    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# JWT Configuration (moved outside of spring section)
+jwt:
+  secret: ${JWT_SECRET:mySecretKeyForCitaSaludApplicationThatShouldBeAtLeast256BitsLong}
+  expiration: 86400000
