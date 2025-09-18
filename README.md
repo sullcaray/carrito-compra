@@ -68,10 +68,6 @@ docker-compose up -d
 Este comando creará e iniciará un contenedor de Docker con una base de datos PostgreSQL. La base de datos estará accesible en el puerto `5433` de tu máquina local (`localhost`).
 
 > **Importante:** El archivo `application.yml` está configurado para conectarse al puerto `5433`. Debes **modificar el puerto en el archivo de configuración** para que coincida con el que expone Docker.
->
-> 1.  Abre el archivo: `src/main/resources/application.yml`.
-> 2.  Busca la línea `url: jdbc:postgresql://localhost:5433/bd_carrito_compras`.
-> 3.  Cámbiala a: `url: jdbc:postgresql://localhost:5432/bd_carrito_compras`.
 
 ### 4. Carga de Datos Iniciales
 
