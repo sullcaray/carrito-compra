@@ -53,6 +53,13 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Cambiar a STATELESS para JWT
                 )
                 .userDetailsService(userDetailsService)
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/login") // Redirige a /login en caso de 403
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
