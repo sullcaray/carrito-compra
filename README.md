@@ -18,6 +18,8 @@ Este es un proyecto de Carrito de Compras desarrollado en Java con Spring Boot c
     *   Spring Web
     *   Spring Security
     *   Spring Data JPA
+*   **Frontend (Server-Side):**
+    *   Thymeleaf
 *   **Base de Datos:**
     *   SQL (Compatible PostgreSQL)
 *   **Build Tool:**
